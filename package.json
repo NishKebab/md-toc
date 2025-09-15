@@ -1,10 +1,18 @@
 {
-  "name": "md-toc",
+  "name": "md-toc-generator",
   "version": "1.0.0",
-  "description": "Generate table of contents for all markdown files in a repository",
+  "description": "Recursively generate table of contents for all markdown files in a repository with gitignore-style filtering",
   "main": "dist/index.js",
   "bin": {
     "md-toc": "./dist/cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NishKebab/md-toc.git"
+  },
+  "homepage": "https://github.com/NishKebab/md-toc#readme",
+  "bugs": {
+    "url": "https://github.com/NishKebab/md-toc/issues"
   },
   "scripts": {
     "build": "tsc",
@@ -19,9 +27,14 @@
     "toc",
     "table-of-contents",
     "documentation",
-    "cli"
+    "cli",
+    "recursive",
+    "generator",
+    "doctoc",
+    "gitignore",
+    "typescript"
   ],
-  "author": "",
+  "author": "NishKebab",
   "license": "MIT",
   "dependencies": {
     "commander": "^11.1.0",
