@@ -1,4 +1,4 @@
-# md-toc
+# md-toc-nk
 
 A TypeScript CLI tool that recursively generates a table of contents for all markdown files in a repository.
 
@@ -14,14 +14,26 @@ A TypeScript CLI tool that recursively generates a table of contents for all mar
 
 ## Installation
 
+### Global Installation
 ```bash
-npm install -g md-toc
+npm install -g md-toc-nk
 ```
 
-Or run directly with npx:
-
+### Run directly with npx/pnpx (no installation needed)
 ```bash
-npx md-toc
+# Using npx (npm)
+npx md-toc-nk
+
+# Using pnpx (pnpm)
+pnpx md-toc-nk
+
+# Using yarn dlx
+yarn dlx md-toc-nk
+```
+
+### Local Installation
+```bash
+npm install --save-dev md-toc-nk
 ```
 
 ## Usage
@@ -31,25 +43,41 @@ npx md-toc
 Generate TOC for current directory and save to README.md:
 
 ```bash
+# If installed globally
 md-toc
+
+# Using npx/pnpx
+npx md-toc-nk
 ```
 
 ### Custom Output File
 
 ```bash
+# If installed globally
 md-toc -o docs/INDEX.md
+
+# Using npx/pnpx
+npx md-toc-nk -o docs/INDEX.md
 ```
 
 ### Specify Directory
 
 ```bash
+# If installed globally
 md-toc ./my-project -o my-project/TOC.md
+
+# Using npx/pnpx
+npx md-toc-nk ./my-project -o my-project/TOC.md
 ```
 
 ### Dry Run (Preview)
 
 ```bash
+# If installed globally
 md-toc --dry-run
+
+# Using npx/pnpx
+npx md-toc-nk --dry-run
 ```
 
 ### Insert at Marker
@@ -57,7 +85,11 @@ md-toc --dry-run
 Insert TOC between markers in existing file:
 
 ```bash
+# If installed globally
 md-toc --insert-at "<!-- TOC -->"
+
+# Using npx/pnpx
+npx md-toc-nk --insert-at "<!-- TOC -->"
 ```
 
 ## Configuration

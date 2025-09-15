@@ -1,10 +1,10 @@
 {
-  "name": "md-toc-generator",
+  "name": "md-toc-nk",
   "version": "1.0.0",
   "description": "Recursively generate table of contents for all markdown files in a repository with gitignore-style filtering",
   "main": "dist/index.js",
   "bin": {
-    "md-toc": "./dist/cli.js"
+    "md-toc": "dist/cli.js"
   },
   "repository": {
     "type": "git",
