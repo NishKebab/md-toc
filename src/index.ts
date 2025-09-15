@@ -8,9 +8,7 @@ import { parseMarkdown, MarkdownFile } from './parser';
 export async function generateToc(directory: string, config: Config): Promise<string> {
   const ig = ignore();
   
-  // Add default ignores
-  ig.add(['node_modules/**', '.git/**']);
-  
+  // Only add custom ignore patterns (node_modules and .git are handled separately)
   if (config.ignore && config.ignore.length > 0) {
     ig.add(config.ignore);
   }
@@ -31,7 +29,15 @@ export async function generateToc(directory: string, config: Config): Promise<st
   }
 
   const filteredFiles = allFiles
-    .filter(file => !ig.ignores(file))
+    .filter(file => {
+      // Check if any part of the path contains node_modules or .git
+      const pathParts = file.split(path.sep);
+      if (pathParts.includes('node_modules') || pathParts.includes('.git')) {
+        return false;
+      }
+      // Also check with the ignore package for custom patterns
+      return !ig.ignores(file);
+    })
     .filter(file => {
       if (config.excludeReadme) {
         const basename = path.basename(file).toLowerCase();
