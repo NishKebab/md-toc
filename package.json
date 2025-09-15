@@ -1,6 +1,6 @@
 {
   "name": "md-toc-nk",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Recursively generate table of contents for all markdown files in a repository with gitignore-style filtering",
   "main": "dist/index.js",
   "bin": {
