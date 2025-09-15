@@ -8,6 +8,9 @@ import { parseMarkdown, MarkdownFile } from './parser';
 export async function generateToc(directory: string, config: Config): Promise<string> {
   const ig = ignore();
   
+  // Add default ignores
+  ig.add(['node_modules/**', '.git/**']);
+  
   if (config.ignore && config.ignore.length > 0) {
     ig.add(config.ignore);
   }
@@ -21,7 +24,8 @@ export async function generateToc(directory: string, config: Config): Promise<st
       absolute: false,
       nodir: true,
       maxDepth: config.maxDepth || 10,
-      ignore: ['node_modules/**', '.git/**']
+      // Don't use glob's ignore - we'll filter with the ignore package
+      ignore: []
     });
     allFiles.push(...files);
   }

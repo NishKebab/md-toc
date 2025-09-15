@@ -38,6 +38,15 @@ program
 
       const targetDir = path.resolve(directory);
       const outputFile = path.resolve(targetDir, options.output);
+      
+      // Add output file to ignore list to prevent self-reference
+      const outputRelative = path.relative(targetDir, outputFile);
+      if (!config.ignore) {
+        config.ignore = [];
+      }
+      if (!config.ignore.includes(outputRelative)) {
+        config.ignore.push(outputRelative);
+      }
 
       const toc = await generateToc(targetDir, config);
 
@@ -45,25 +54,30 @@ program
         console.log('Generated TOC:');
         console.log(toc);
       } else {
-        if (config.insertMarker && fs.existsSync(outputFile)) {
+        if (fs.existsSync(outputFile)) {
+          // File exists - preserve content and insert/update TOC
           const content = fs.readFileSync(outputFile, 'utf-8');
-          const markerRegex = new RegExp(`${config.insertMarker}[\\s\\S]*?${config.insertMarker}`, 'g');
+          const marker = config.insertMarker || '<!-- TOC -->';
+          const markerRegex = new RegExp(`${marker.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}[\\s\\S]*?${marker.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'g');
           
           if (markerRegex.test(content)) {
+            // Markers exist - update between them
             const updatedContent = content.replace(
               markerRegex,
-              `${config.insertMarker}\n${toc}\n${config.insertMarker}`
+              `${marker}\n${toc}\n${marker}`
             );
             fs.writeFileSync(outputFile, updatedContent);
             console.log(`✅ TOC updated in ${outputFile}`);
           } else {
-            const marker = config.insertMarker;
+            // No markers - insert TOC at the top, preserving existing content
             const tocBlock = `${marker}\n${toc}\n${marker}`;
             const lines = content.split('\n');
             
             if (lines[0].startsWith('#')) {
-              lines.splice(1, 0, '', tocBlock);
+              // Insert after the first heading
+              lines.splice(1, 0, '', tocBlock, '');
             } else {
+              // Insert at the very top
               lines.unshift(tocBlock, '');
             }
             
@@ -71,7 +85,10 @@ program
             console.log(`✅ TOC inserted in ${outputFile}`);
           }
         } else {
-          fs.writeFileSync(outputFile, toc);
+          // File doesn't exist - create new file with TOC
+          const marker = config.insertMarker || '<!-- TOC -->';
+          const tocWithMarkers = `${marker}\n${toc}\n${marker}`;
+          fs.writeFileSync(outputFile, tocWithMarkers);
           console.log(`✅ TOC written to ${outputFile}`);
         }
       }
