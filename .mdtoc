@@ -1,0 +1,31 @@
+# Example configuration file for md-toc
+# Supports both YAML and JSON formats
+
+# Patterns to ignore (gitignore-style)
+ignore:
+  - node_modules/**
+  - .git/**
+  - dist/**
+  - build/**
+  - coverage/**
+  - "*.test.md"
+  - "*.spec.md"
+  - vendor/**
+  - tmp/**
+
+# Patterns to include (glob patterns)
+include:
+  - "**/*.md"
+  - "**/*.markdown"
+
+# Maximum directory depth to traverse
+maxDepth: 10
+
+# Whether to exclude README.md files from the TOC
+excludeReadme: false
+
+# Title for the table of contents
+title: "Table of Contents"
+
+# Marker to use for inserting TOC into existing files
+insertMarker: "<!-- TOC -->"
